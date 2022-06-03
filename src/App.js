@@ -1,19 +1,17 @@
 import { Route, Routes } from 'react-router-dom';
 import Home from './pages/Home'
 import Navbar from './components/Navbar';
-import SIgnUpModal from './components/SIgnUpModal';
+import SignUpModal from './components/SignUpModal';
 
 function App() {
     return (
         <>
+            <SignUpModal />
             <Navbar />
-            <SIgnUpModal />
             <Routes>
                 <Route
                     path='/'
                     element={<Home />} />
-
-
             </Routes>
         </>);
 }

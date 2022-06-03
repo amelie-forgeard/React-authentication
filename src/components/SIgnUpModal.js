@@ -1,6 +1,6 @@
 import React from 'react'
 
-function SIgnUpModal() {
+function SignUpModal() {
     return (
         <>
             <div className="position-fixed top-0 vw-100 vh-100">
@@ -79,4 +79,4 @@ function SIgnUpModal() {
             </div></>)
 }
 
-export default SIgnUpModal
+export default SignUpModal
