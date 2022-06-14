@@ -1,11 +1,28 @@
 import { createContext, useState } from "react";
 
+// Méthodes qui permettent pour inscrire une personne sur firebase
+
+import {
+    signInWithEmailAndPassword,
+    createUserWithEmailAndPassword,
+    onAuthStateChanged
+} from "firebase/auth"
+import { auth } from "../firebase-config"
+
 // je crée le contexte:
 export const UserContext = createContext()
 
 // je crée le composant d'ordre supérieur = PROVIDER qui va retourner le UserContext.Provider :
 export function UserContextProvider(props) {
-    //je définis mon state:
+    // state qui gère l'utilisateur qui va ce connecter
+    const [currentUser, setCurrentUser] = useState();
+    // state qui gère la loader le temps qu'on ait la réponse de firebase
+    const [loadingData, setLoadingData] = useState(true);
+    // je récupère le mail + MDP via la methode signUp qui passe par le contexte => je la passe en value dans le provider + 
+    // je l'ajoute dans mon composant signUpModal aussi
+    const signUp = (email, pwd) => createUserWithEmailAndPassword(auth, email, pwd)
+
+    //je définis mon state MODALE:
     const [modalState, setModalState] = useState({
         signUpModal: false,
         signInModal: false
@@ -34,7 +51,7 @@ export function UserContextProvider(props) {
 
     //je passe le state à APP via le provider via la VALUE:
     return (
-        <UserContext.Provider value={{ modalState, toggleModals }}>
+        <UserContext.Provider value={{ modalState, toggleModals, signUp }}>
             {props.children}
         </UserContext.Provider>
     )

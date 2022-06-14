@@ -4,7 +4,8 @@ import { UserContext } from "../context/userContext";
 
 export default function SignUpModal() {
     // j'utilise le hook pour ytransmettre le contexte, et dedans je prends toggleModals + modalState
-    const { modalState, toggleModals } = useContext(UserContext);
+    const { modalState, toggleModals, signUp } = useContext(UserContext);
+    console.log(signUp);
     // console.log(modalState, toggleModals);
 
     // le state qui gère le msg de validation:
@@ -17,11 +18,13 @@ export default function SignUpModal() {
             inputs.current.push(el)
         }
     }
+    // ref pour selectionner le formulaire:   => j'ajoute la ref dans ma balise form aussi
+    const formRef = useRef();
 
-    //fonction qui gère la soumission du form:
-    const handleForm = e => {
+    //fonction qui gère la soumission du form coté Front:
+    const handleForm = async (e) => {
         e.preventDefault()
-        console.log(inputs);
+        // console.log(inputs);
         // useRef donne une propriété current qui contient le tableau de références
         //à chq envoi de form, on veut gérer nos données coté Front = les valider
         //je vérifie la longueur du MDP dans les 2 inputs:
@@ -33,6 +36,33 @@ export default function SignUpModal() {
         else if (inputs.current[1].value !== inputs.current[2].value) {
             setValidation("Mot de passe différents")
             return;
+        }
+
+        // maintenant je m'inscris coté firebase
+        try {
+            //cred retourne l'utilisateur qui a été crée
+            const cred = await signUp(
+                inputs.current[0].value,
+                inputs.current[1].value
+            )
+            // methode JS qui permet de remettre à zero les inputs:
+            formRef.current.reset();
+            // je vide le message de validation
+            setValidation("")
+            console.log(cred);
+            // toggleModals("close")
+            // navigate("/private/private-home")
+
+        } catch (err) {
+
+            if (err.code === "auth/invalid-email") {
+                setValidation("Email format invalid")
+            }
+
+            if (err.code === "auth/email-already-in-use") {
+                setValidation("Email already used")
+            }
+
         }
     }
     // j'ajoute la ref sur tous les inputs en lui passant la fonction addInput: ref={addInputs}
@@ -48,7 +78,8 @@ export default function SignUpModal() {
                     <div
                         className="position-absolute top-50 start-50 translate-middle"
                         style={{ minWidth: "400px" }}
-                    >                        <div className="modal-dialog">
+                    >
+                        <div className="modal-dialog">
                             <div className="modal-content">
                                 <div className="modal-header">
                                     <h5 className="modal-title">S'inscrire</h5>
@@ -60,7 +91,7 @@ export default function SignUpModal() {
 
                                 <div className="modal-body">
                                     <form
-                                        // ref={formRef}
+                                        ref={formRef}
                                         onSubmit={handleForm}
                                         className="sign-up-form">
                                         <div className="mb-3">
