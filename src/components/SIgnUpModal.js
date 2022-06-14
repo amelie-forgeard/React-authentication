@@ -49,21 +49,26 @@ export default function SignUpModal() {
             formRef.current.reset();
             // je vide le message de validation
             setValidation("")
-            console.log(cred);
+            // console.log(cred);
             // toggleModals("close")
             // navigate("/private/private-home")
 
         } catch (err) {
 
             if (err.code === "auth/invalid-email") {
-                setValidation("Email format invalid")
+                setValidation("Format Email invalide")
             }
 
             if (err.code === "auth/email-already-in-use") {
-                setValidation("Email already used")
+                setValidation("Email déja existant ")
             }
 
         }
+    }
+    // methode qui gère l'effacement du form + fermeture modale
+    const closeModal = () => {
+        setValidation("")
+        toggleModals("close")
     }
     // j'ajoute la ref sur tous les inputs en lui passant la fonction addInput: ref={addInputs}
     return (
@@ -72,7 +77,7 @@ export default function SignUpModal() {
                 <div className="position-fixed top-0 vw-100 vh-100">
                     <div
                         // fermer la modale quand on clique sur l'overlay:
-                        onClick={() => toggleModals("close")}
+                        onClick={closeModal}
                         className="w-100 h-100 bg-dark bg-opacity-75">
                     </div>
                     <div
@@ -84,7 +89,7 @@ export default function SignUpModal() {
                                 <div className="modal-header">
                                     <h5 className="modal-title">S'inscrire</h5>
                                     <button
-                                        onClick={() => toggleModals("close")}
+                                        onClick={closeModal}
                                         className="btn-close">
                                     </button>
                                 </div>
