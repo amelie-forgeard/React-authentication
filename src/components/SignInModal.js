@@ -17,9 +17,10 @@ export default function SignUpModal() {
     };
     const formRef = useRef();
 
+    // la gestion d'erreur MDP ne se fait pas coté Front mais coté firebase
     const handleForm = async (e) => {
         e.preventDefault();
-        console.log(inputs);
+        // console.log(inputs);
         try {
             const cred = await signIn(
                 inputs.current[0].value,

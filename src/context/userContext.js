@@ -7,6 +7,7 @@ import {
     createUserWithEmailAndPassword,
     onAuthStateChanged
 } from "firebase/auth"
+// auth désigne le créateur du site, proprio de la bdd firebase
 import { auth } from "../firebase-config"
 
 // je crée le contexte:
@@ -22,6 +23,7 @@ export function UserContextProvider(props) {
     // je l'ajoute dans mon composant signUpModal aussi
     const signUp = (email, pwd) => createUserWithEmailAndPassword(auth, email, pwd)
 
+    const signIn = (email, pwd) => signInWithEmailAndPassword(auth, email, pwd)
     // useEffect
     useEffect(() => {
         // pour gérer le désabonnement
@@ -63,7 +65,7 @@ export function UserContextProvider(props) {
 
     //je passe le state à APP via le provider via la VALUE:
     return (
-        <UserContext.Provider value={{ modalState, toggleModals, signUp, currentUser }}>
+        <UserContext.Provider value={{ modalState, toggleModals, signUp, currentUser, signIn }}>
             {!loadingData && props.children}
         </UserContext.Provider>)
 }

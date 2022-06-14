@@ -8,7 +8,7 @@ export default function Home() {
     return (
         <div className="container p-5">
             <h1 className="display-3 text-light">
-                {currentUser ? "Bienvenue" : "Veuillez vous inscrire !"}
+                {currentUser ? "Bienvenue sur la Homepage" : "Veuillez vous inscrire !"}
             </h1>
         </div>
     )
