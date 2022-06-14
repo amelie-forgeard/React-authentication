@@ -1,16 +1,20 @@
 // useRef permet de faire des références = sélectionner des éléments avec React
 import React, { useContext, useRef, useState } from "react";
 import { UserContext } from "../context/userContext";
+import { useNavigate } from "react-router-dom"
 
 export default function SignUpModal() {
     // j'utilise le hook pour ytransmettre le contexte, et dedans je prends toggleModals + modalState
     const { modalState, toggleModals, signUp } = useContext(UserContext);
-    console.log(signUp);
+    // console.log(signUp);
     // console.log(modalState, toggleModals);
+
+    // j'instancie mon hook useNavigate:
+    const navigate = useNavigate();
 
     // le state qui gère le msg de validation:
     const [validation, setValidation] = useState("");
-    // de base notre référence est un tableau vide
+    // de base notre référence est un tableau vide = j'instancie mon useRef
     const inputs = useRef([])
     // je crée une fonction qui pour chq élément, si celui-ci n'existe pas déja dans le tableau, alors je le push dedans
     const addInputs = el => {
@@ -50,9 +54,10 @@ export default function SignUpModal() {
             // je vide le message de validation
             setValidation("")
             // console.log(cred);
-            // toggleModals("close")
-            // navigate("/private/private-home")
-
+            // je ferme la modale:
+            toggleModals("close")
+            // une fois que je suis bien connecté, et qu'il n'y a pas d'erreur, je vais naviguer:
+            navigate("/private/private-home")
         } catch (err) {
 
             if (err.code === "auth/invalid-email") {
