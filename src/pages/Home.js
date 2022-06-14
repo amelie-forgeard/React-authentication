@@ -1,13 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { UserContext } from "../context/userContext"
 
 export default function Home() {
-
-    //   const {currentUser} = useContext(UserContext)
+    // j'ajoute le contexte pour gérer l'affichage selon si je suis connecté ou non:
+    const { currentUser } = useContext(UserContext)
 
     return (
         <div className="container p-5">
-            <h1 className="display-2 text-light">
-                "Bienvenue !"
+            <h1 className="display-3 text-light">
+                {currentUser ? "Bienvenue" : "Veuillez vous inscrire !"}
             </h1>
         </div>
     )

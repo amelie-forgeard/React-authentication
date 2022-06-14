@@ -8,10 +8,11 @@ export default function Private() {
     console.log("PRIVATE", currentUser);
 
     if (!currentUser) {
-        // si pas d'utilisateur je renvois à l'acceuil
+        // si pas d'utilisateur connu je renvoie à l'acceuil
         return <Navigate to="/" />
     }
-
+    // si l'utilisateur est connu dans firebase: je le fais naviguer vers sa page
+    //OUTLET renvoie au composant  enfant  PrivateHome
     return (
         <div className="container">
             <Outlet />
