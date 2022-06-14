@@ -7,10 +7,10 @@ export const UserContext = createContext()
 export function UserContextProvider(props) {
     //je définis mon state:
     const [modalState, setModalState] = useState({
-        signUpModal: true,
+        signUpModal: false,
         signInModal: false
     })
-    //fonction qui gère l'ouvertue des modales au clic sur le bouton:
+    //fonction qui gère l'ouverture/fermeture des modales au clic sur le bouton:
     const toggleModals = modal => {
         if (modal === "signIn") {
             setModalState({
